@@ -1,0 +1,21 @@
+version: 2
+
+models:
+  - name: stg_crypto_market
+    description: "Cleaned and deduplicated staging view of the latest crypto market snapshot."
+    columns:
+      - name: coin_id
+        description: "Primary key identifier for each crypto asset"
+        tests:
+          - unique
+          - not_null
+      - name: coin_symbol
+        description: "Ticker symbol in uppercase (e.g., BTC, ETH)"
+        tests:
+          - not_null
+      - name: current_price_usd
+        description: "Latest recorded price in USD"
+        tests:
+          - not_null
+      - name: market_cap_usd
+        description: "Total market capitalization in USD"

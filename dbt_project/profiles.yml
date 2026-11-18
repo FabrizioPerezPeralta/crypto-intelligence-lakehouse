@@ -1,0 +1,13 @@
+crypto_lakehouse:
+  target: "{{ env_var('DBT_TARGET', 'local') }}"
+  outputs:
+    local:
+      type: duckdb
+      path: "../data/lakehouse.duckdb"
+      schema: main
+      threads: 2
+    prod:
+      type: duckdb
+      path: "md:crypto_intelligence"
+      schema: main
+      threads: 2

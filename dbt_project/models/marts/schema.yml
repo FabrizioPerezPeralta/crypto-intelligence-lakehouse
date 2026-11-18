@@ -1,0 +1,41 @@
+version: 2
+
+models:
+  - name: dim_crypto_assets
+    description: "Dimension table describing cryptocurrency assets and market classifications."
+    columns:
+      - name: coin_id
+        description: "Unique asset identifier"
+        tests:
+          - unique
+          - not_null
+      - name: coin_symbol
+        description: "Uppercase asset symbol"
+        tests:
+          - not_null
+      - name: market_cap_tier
+        description: "Classification tier: Mega Cap, Large Cap, Mid Cap, Small Cap"
+        tests:
+          - not_null
+
+  - name: fct_crypto_market_snapshot
+    description: "Fact table with financial market metrics, price snapshots, and computed volatility."
+    columns:
+      - name: coin_id
+        description: "Foreign key to dim_crypto_assets"
+        tests:
+          - not_null
+          - relationships:
+              to: ref('dim_crypto_assets')
+              field: coin_id
+      - name: current_price_usd
+        description: "Asset price at snapshot time"
+        tests:
+          - not_null
+      - name: intraday_volatility_pct
+        description: "Calculated spread percentage"
+      - name: risk_profile
+        description: "Risk categorization for BI reporting"
+        tests:
+          - accepted_values:
+              values: ['High Volatility', 'Moderate Volatility', 'Low Volatility / Stable']

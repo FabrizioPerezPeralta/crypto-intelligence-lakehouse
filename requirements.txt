@@ -1,0 +1,12 @@
+# Data Engineering Core
+duckdb>=0.10.0
+dbt-core>=1.7.0
+dbt-duckdb>=1.7.0
+
+# Ingestion & Processing
+requests>=2.31.0
+pandas>=2.0.0
+
+# Visualization & Serving
+streamlit>=1.30.0
+plotly>=5.18.0
