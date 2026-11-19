@@ -3,7 +3,7 @@
 > **Author:** Fabrizio Perez Peralta  
 > **Course:** Business Intelligence  
 > **Published on:** [Dev.to / HashNode / Medium]  
-> **Public Repository:** [GitHub Repository Link](https://github.com/YOUR_USERNAME/crypto-intelligence-lakehouse)  
+> **Public Repository:** [GitHub Repository Link](https://github.com/FabrizioPerezPeralta/crypto-intelligence-lakehouse)  
 > **Live Dashboard:** [Streamlit Community Cloud Live App](https://share.streamlit.io/)
 
 ---
@@ -247,7 +247,7 @@ Because Streamlit Cloud is linked to the GitHub repository, any update pushed to
 
 ## 9. Resources & Links
 
-* 📂 **Source Code (Public Repository):** [github.com/YOUR_USERNAME/crypto-intelligence-lakehouse](https://github.com/YOUR_USERNAME/crypto-intelligence-lakehouse)
+* 📂 **Source Code (Public Repository):** [github.com/FabrizioPerezPeralta/crypto-intelligence-lakehouse](https://github.com/FabrizioPerezPeralta/crypto-intelligence-lakehouse)
 * 📊 **Live Public Dashboard:** [share.streamlit.io/...](https://share.streamlit.io/)
 * 🦆 **MotherDuck Documentation:** [motherduck.com/docs](https://motherduck.com/docs)
 * 🔶 **dbt Documentation:** [docs.getdbt.com](https://docs.getdbt.com)

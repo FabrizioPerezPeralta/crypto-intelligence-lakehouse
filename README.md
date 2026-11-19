@@ -1,6 +1,6 @@
 # 🚀 Zero-Dollar Modern Data Platform: MotherDuck, dbt, and GitHub Actions
 
-[![CI/CD Data Pipeline](https://github.com/placeholder-user/crypto-intelligence-lakehouse/actions/workflows/pipeline.yml/badge.svg)](https://github.com/)
+[![CI/CD Data Pipeline](https://github.com/FabrizioPerezPeralta/crypto-intelligence-lakehouse/actions/workflows/pipeline.yml/badge.svg)](https://github.com/FabrizioPerezPeralta/crypto-intelligence-lakehouse/actions)
 [![dbt-core](https://img.shields.io/badge/dbt--core-v1.7+-orange.svg)](https://www.getdbt.com/)
 [![DuckDB / MotherDuck](https://img.shields.io/badge/DWH-MotherDuck%20SaaS-yellow.svg)](https://motherduck.com/)
 [![Streamlit Cloud](https://img.shields.io/badge/Serving-Streamlit%20Cloud-red.svg)](https://streamlit.io/)
@@ -74,7 +74,7 @@ flowchart LR
 
 ```bash
 # Clone the repository
-git clone https://github.com/YOUR_USERNAME/crypto-intelligence-lakehouse.git
+git clone https://github.com/FabrizioPerezPeralta/crypto-intelligence-lakehouse.git
 cd crypto-intelligence-lakehouse
 
 # Create and activate virtual environment
