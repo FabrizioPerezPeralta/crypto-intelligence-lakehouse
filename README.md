@@ -3,7 +3,7 @@
 [![CI/CD Data Pipeline](https://github.com/FabrizioPerezPeralta/crypto-intelligence-lakehouse/actions/workflows/pipeline.yml/badge.svg)](https://github.com/FabrizioPerezPeralta/crypto-intelligence-lakehouse/actions)
 [![dbt-core](https://img.shields.io/badge/dbt--core-v1.7+-orange.svg)](https://www.getdbt.com/)
 [![DuckDB / MotherDuck](https://img.shields.io/badge/DWH-MotherDuck%20SaaS-yellow.svg)](https://motherduck.com/)
-[![Streamlit Cloud](https://img.shields.io/badge/Serving-Streamlit%20Cloud-red.svg)](https://streamlit.io/)
+[![Streamlit Cloud](https://img.shields.io/badge/Serving-Streamlit%20Cloud-red.svg)](https://crypto-intelligence-lakehouse.streamlit.app)
 [![License: MIT](https://img.shields.io/badge/License-MIT-blue.svg)](LICENSE)
 
 An end-to-end, production-grade **Data Engineering & Business Intelligence** solution built entirely on **100% Free Public SaaS providers** (Zero AWS, Zero monthly cloud bills, and No credit card required).
