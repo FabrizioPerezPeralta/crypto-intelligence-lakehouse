@@ -9,5 +9,6 @@ crypto_lakehouse:
     prod:
       type: duckdb
       path: "md:crypto_intelligence"
+      motherduck_token: "{{ env_var('MOTHERDUCK_TOKEN') }}"
       schema: main
       threads: 2
