@@ -74,8 +74,34 @@ def get_db_connection():
 
 
 def load_data(con):
-    """Query dimensional model created by dbt."""
-    query = """
+    """Query dimensional model created by dbt, dynamically auto-detecting schema namespace."""
+    # Find exact table location dynamically across all catalogs and schemas
+    try:
+        tables_df = con.execute("""
+            SELECT table_catalog, table_schema, table_name 
+            FROM information_schema.tables 
+            WHERE table_name = 'fct_crypto_market_snapshot'
+            ORDER BY table_catalog DESC
+            LIMIT 1;
+        """).df()
+    except Exception:
+        tables_df = pd.DataFrame()
+
+    if not tables_df.empty:
+        cat = tables_df.iloc[0]["table_catalog"]
+        sch = tables_df.iloc[0]["table_schema"]
+        if cat:
+            fct_table = f'"{cat}"."{sch}"."fct_crypto_market_snapshot"'
+            dim_table = f'"{cat}"."{sch}"."dim_crypto_assets"'
+        else:
+            fct_table = f'"{sch}"."fct_crypto_market_snapshot"'
+            dim_table = f'"{sch}"."dim_crypto_assets"'
+    else:
+        # Fallback to standard marts
+        fct_table = "marts.fct_crypto_market_snapshot"
+        dim_table = "marts.dim_crypto_assets"
+
+    query = f"""
         SELECT 
             f.coin_id,
             f.coin_symbol,
@@ -90,28 +116,11 @@ def load_data(con):
             f.volume_to_mcap_ratio,
             f.risk_profile,
             f.snapshot_timestamp
-        FROM marts.fct_crypto_market_snapshot f
-        JOIN marts.dim_crypto_assets d ON f.coin_id = d.coin_id
+        FROM {fct_table} f
+        JOIN {dim_table} d ON f.coin_id = d.coin_id
         ORDER BY f.market_cap_usd DESC;
     """
-    try:
-        df = con.execute(query).df()
-        return df
-    except Exception as e:
-        # Fallback to explicit database catalog namespace if needed
-        try:
-            return con.execute("""
-                SELECT 
-                    f.coin_id, f.coin_symbol, d.coin_name, d.market_cap_tier,
-                    f.current_price_usd, f.market_cap_usd, f.total_volume_24h_usd,
-                    f.price_change_pct_24h, f.intraday_volatility_pct, f.ath_drawdown_pct,
-                    f.volume_to_mcap_ratio, f.risk_profile, f.snapshot_timestamp
-                FROM crypto_intelligence.marts.fct_crypto_market_snapshot f
-                JOIN crypto_intelligence.marts.dim_crypto_assets d ON f.coin_id = d.coin_id
-                ORDER BY f.market_cap_usd DESC;
-            """).df()
-        except Exception:
-            raise e
+    return con.execute(query).df()
 
 
 # ---------------- SIDEBAR ----------------
