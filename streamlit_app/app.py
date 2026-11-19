@@ -55,14 +55,19 @@ def get_db_connection():
             con = duckdb.connect(f"md:crypto_intelligence?motherduck_token={token}", read_only=True)
             return con, "MotherDuck Cloud (SaaS)"
         except Exception as e:
-            st.warning(f"Could not connect to MotherDuck Cloud ({e}). Falling back to local lakehouse...")
+            st.error(f"❌ Error connecting to MotherDuck Cloud: {e}")
+            raise e
 
-    # Fallback to local file
+    # Fallback to local file (for offline development only)
     local_path = "data/lakehouse.duckdb"
     if not os.path.exists(local_path):
-        # Also check parent directory
         if os.path.exists("../data/lakehouse.duckdb"):
             local_path = "../data/lakehouse.duckdb"
+
+    if not os.path.exists(local_path):
+        os.makedirs(os.path.dirname(local_path) or ".", exist_ok=True)
+        con = duckdb.connect(local_path)
+        return con, "Local DuckDB (Empty)"
 
     con = duckdb.connect(local_path, read_only=True)
     return con, "Local DuckDB Lakehouse"
@@ -93,9 +98,20 @@ def load_data(con):
         df = con.execute(query).df()
         return df
     except Exception as e:
-        # Fallback query if schema namespace differs
-        fallback_query = "SELECT * FROM fct_crypto_market_snapshot;"
-        return con.execute(fallback_query).df()
+        # Fallback to explicit database catalog namespace if needed
+        try:
+            return con.execute("""
+                SELECT 
+                    f.coin_id, f.coin_symbol, d.coin_name, d.market_cap_tier,
+                    f.current_price_usd, f.market_cap_usd, f.total_volume_24h_usd,
+                    f.price_change_pct_24h, f.intraday_volatility_pct, f.ath_drawdown_pct,
+                    f.volume_to_mcap_ratio, f.risk_profile, f.snapshot_timestamp
+                FROM crypto_intelligence.marts.fct_crypto_market_snapshot f
+                JOIN crypto_intelligence.marts.dim_crypto_assets d ON f.coin_id = d.coin_id
+                ORDER BY f.market_cap_usd DESC;
+            """).df()
+        except Exception:
+            raise e
 
 
 # ---------------- SIDEBAR ----------------
